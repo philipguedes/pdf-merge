@@ -11,7 +11,7 @@ def main():
     width = root.winfo_screenwidth()
     height = root.winfo_screenheight()
 
-    geometry = '{}x{}+{}+{}'.format(width//2, height//2, width//4, height//4)
+    geometry = '{}x{}+{}+{}'.format(700, 400, width//4, height//4)
     root.geometry(geometry)
 
     # Initializing the app

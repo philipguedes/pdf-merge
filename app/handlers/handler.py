@@ -2,7 +2,6 @@ import csv
 import pdfrw
 
 
-
 class MainController(object):
     def __init__(self):
         self.queue = MyQueue()
@@ -21,14 +20,21 @@ class MainController(object):
 
     def split_csv_line(self, line):
         lines = list(map(lambda x: int(x), line.split(',')))
-        elem = {}
-        elem['pdf'] = lines.pop(0)
-        elem['range'] = lines[:]
-        if len(lines) > 2:
+        if len(lines) != 3:
             # TODO: Error messages
             return "Failed"
+        elem = {}
+        elem['pdf'], elem['from'], elem['to'] = lines[:]
         return elem
 
+    def generate_pdf(self, filename):
+        pass
+
+    def join_pages(self):
+        pass
+    
+    def read_pdfs(self, ordered_pdfs):
+        pass
 
 class MyQueue(object):
     def __init__(self):

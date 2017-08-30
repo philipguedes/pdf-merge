@@ -5,7 +5,7 @@ from tkinter import *
 from tkinter.ttk import Treeview, Scrollbar
 from tkinter.scrolledtext import ScrolledText
 from components.logging import Logging
-
+from components.csv import Csv
 
 FONT = ("Verdana", "12", "bold")
 
@@ -32,7 +32,7 @@ class Application(Frame):
 
     @property
     def csv_loaded(self):
-        return csv_file is None
+        return self.csv_file is not None
 
     def create_widgets(self):
         """
@@ -83,12 +83,7 @@ class Application(Frame):
         """
         Creates CSV widgets
         """
-        Label(self, text='Load CSV', font=FONT).grid(row=0, column=5, sticky=NW, padx=10)
-
-        # Create Load CSV button
-        self.button3 = Button(self, text='Load CSV',
-                              command=self.load_csv_file)
-        self.button3.grid(row=2, column=5, sticky=W, padx=10)
+        self.csv_component = Csv(self)
 
     def remove_selected_pdf(self):
         selected = self.file_window.focus()
@@ -97,15 +92,6 @@ class Application(Frame):
         self.file_window.delete(selected)
         self.update_file_index()
         self.log_info('{} removed'.format(name))
-
-    def load_csv_file(self):
-        filetypes = ("csv files", "*.csv"), ("all files", "*.*")
-        filename = filedialog.askopenfilename(initialdir='~',
-                                              title='Select File',
-                                              filetypes=filetypes)
-        if filename.endswith('.csv'):
-            self.csv_loaded = True
-            self.csv_file = filename
 
     def log_info(self, message):
         self.logger.log_info(message)

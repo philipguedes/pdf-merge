@@ -4,6 +4,7 @@ from tkinter import filedialog, Frame
 from tkinter import *
 from tkinter.ttk import Treeview, Scrollbar
 from tkinter.scrolledtext import ScrolledText
+from components.logging import Logging
 
 
 FONT = ("Verdana", "12", "bold")
@@ -28,6 +29,10 @@ class Application(Frame):
             path = tags.pop(0)
             pdfs.update({key: path})
         return pdfs
+
+    @property
+    def csv_loaded(self):
+        return csv_file is None
 
     def create_widgets(self):
         """
@@ -72,18 +77,13 @@ class Application(Frame):
         """
         Creates logging widgets
         """
-        Label(self, text='Status', font=FONT).grid(row=3, column=5,
-                                                   sticky=W, padx=10)
-        self.logging = ScrolledText(self, width=40, height=8, wrap=WORD,
-                                    state='disabled', bg="white", relief=SUNKEN)
-        self.logging.grid(row=4, column=5, rowspan=2, padx=10)
+        self.logger = Logging(self)
 
     def __create_csv_widgets(self):
         """
         Creates CSV widgets
         """
         Label(self, text='Load CSV', font=FONT).grid(row=0, column=5, sticky=NW, padx=10)
-        self.csv_loaded = None
 
         # Create Load CSV button
         self.button3 = Button(self, text='Load CSV',
@@ -108,9 +108,7 @@ class Application(Frame):
             self.csv_file = filename
 
     def log_info(self, message):
-        self.logging.configure(state='normal')
-        self.logging.insert(END, message + '\n')
-        self.logging.configure(state='disabled')
+        self.logger.log_info(message)
 
     def update_file_index(self):
         for index, item in enumerate(self.file_window.get_children()):

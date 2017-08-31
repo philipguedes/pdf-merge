@@ -1,5 +1,4 @@
 import os
-import arrow
 from tkinter import filedialog, Frame
 from tkinter import *
 from tkinter.ttk import Treeview, Scrollbar
@@ -37,7 +36,7 @@ class FileView(object):
         name = item.pop(0)
         self.view.delete(selected)
         self.update()
-        self.master.log_info('{} removed'.format(name))      
+        self.master.log_info('Removed <{}> file'.format(name))      
 
     def open(self):
         filetypes = ("pdf files", "*.pdf"), ("all files", "*.*")
@@ -50,7 +49,7 @@ class FileView(object):
             name = os.path.basename(filename)
             self.view.insert('', 'end', text='', values=name, tag=filename)
             self.update()
-            self.master.log_info('{} loaded'.format(name))
+            self.master.log_info('Loaded <{}> file'.format(name))
 
     def update(self):
         for index, item in enumerate(self.view.get_children()):
@@ -61,7 +60,6 @@ class FileView(object):
         children = self.view.get_children()
         for child in children:
             data = self.view.item(child)
-            print(data)
             key = data.get('text')
             tags = data.get('tags')
             path = tags.pop(0)

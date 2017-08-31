@@ -1,6 +1,4 @@
-import os
 import arrow
-from tkinter import filedialog, Frame
 from tkinter import *
 from tkinter.ttk import Treeview, Scrollbar
 from tkinter.scrolledtext import ScrolledText
@@ -24,5 +22,10 @@ class Logging(object):
 
     def log_info(self, message):
         self.master.logging.configure(state='normal')
-        self.master.logging.insert(END, message + '\n')
+        formatted_message = self.format_message(message)
+        self.master.logging.insert(END, formatted_message)
         self.master.logging.configure(state='disabled')
+
+    def format_message(self, message):
+        now = arrow.now().format('HH:mm:ss')
+        return '[{}] {}\n'.format(now, message)

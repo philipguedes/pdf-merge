@@ -1,12 +1,11 @@
 import os
-import arrow
 from tkinter import filedialog, Frame
 from tkinter import *
-from tkinter.ttk import Treeview, Scrollbar
-from tkinter.scrolledtext import ScrolledText
 from components.logging import Logging
 from components.csv import Csv
 from components.file_view import FileView
+from handlers.handler import MainController
+
 
 FONT = ("Verdana", "12", "bold")
 
@@ -15,6 +14,9 @@ class Application(Frame):
     def __init__(self, master):
         Frame.__init__(self, master)
         self.grid(padx=(10, 0), pady=30)
+
+        self.controller = MainController()
+
         self.csv_file = None
         self.create_widgets()
 
@@ -64,13 +66,6 @@ class Application(Frame):
         filepath = filedialog.asksaveasfilename(initialdir='~',
                                                 title='Save File',
                                                 filetypes=filetypes)
-        
-        # Call handler save here
-        
-        print(filepath)
-        print("file saved")
-
-
-    # Create a logger
-    # With time format
-    # http://arrow.readthedocs.io/en/latest/
+        if filepath:
+            self.controller.merge(self.pdf_dict, self.csv_file, filepath)
+            self.logger.log_info('Merged!')

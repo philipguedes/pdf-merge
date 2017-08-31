@@ -1,10 +1,17 @@
 import csv
-import pdfrw
+from pdfrw import PdfFileReader, PdfFileWriter
 
 
 class MainController(object):
     def __init__(self):
         self.queue = MyQueue()
+
+    @property
+    def queue_empty(self):
+        return self.queue.empty
+
+    def get_line(self):
+        return self.queue.get()
 
     def read_csv(self, path):
         try:
@@ -15,26 +22,32 @@ class MainController(object):
                     split = self.split_csv_line(line)
                     self.queue.put(split)
         except:
-            # TODO: Error messages
-            return "Failed"
+            self.queue.clear()
 
     def split_csv_line(self, line):
         lines = list(map(lambda x: int(x), line.split(',')))
-        if len(lines) != 3:
-            # TODO: Error messages
-            return "Failed"
-        elem = {}
-        elem['pdf'], elem['from'], elem['to'] = lines[:]
-        return elem
+        if len(lines) == 3:
+            elem = {}
+            elem['pdf'], elem['from'], elem['to'] = lines[:]
+            return elem
 
-    def generate_pdf(self, filename):
-        pass
+    def merge(self, pdfs, csv_file, dst_path):
+        writer = PdfFileWriter()
+        
+        self.read_csv(csv_file)
 
-    def join_pages(self):
-        pass
-    
-    def read_pdfs(self, ordered_pdfs):
-        pass
+        while self.queue_empty is False:
+            elem = self.get_line()
+            key = elem['pdf']
+            
+            path = pdfs.get(key)
+            reader = PdfFileReader(fname=path)
+            
+            for x in range (-1, elem['to']-elem['from']):
+                writer.addPage(reader.getPage(x+elem['from']))
+
+        writer.write(fname=dst_path)
+
 
 class MyQueue(object):
     def __init__(self):
@@ -48,6 +61,9 @@ class MyQueue(object):
     @property
     def empty(self):
         return self.size == 0
+
+    def clear(self):
+        self.__queue = []
     
     def get(self):
         if self.empty:

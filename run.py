@@ -1,5 +1,5 @@
 from tkinter import *
-from views.main_window import Application
+from app.views.main_window import Application
 
 
 def main():

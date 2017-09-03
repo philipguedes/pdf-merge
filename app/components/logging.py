@@ -1,4 +1,4 @@
-import arrow
+import datetime as dt
 from tkinter import *
 from tkinter.ttk import Treeview, Scrollbar
 from tkinter.scrolledtext import ScrolledText
@@ -27,5 +27,5 @@ class Logging(object):
         self.master.logging.configure(state='disabled')
 
     def format_message(self, message):
-        now = arrow.now().format('HH:mm:ss')
-        return '[{}] {}\n'.format(now, message)
+        now = dt.datetime.now().strftime('[%H:%M:%S]')
+        return '{} {}\n'.format(now, message)

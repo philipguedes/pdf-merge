@@ -1,10 +1,10 @@
 import os
 from tkinter import filedialog, Frame
 from tkinter import *
-from components.logging import Logging
-from components.csv import Csv
-from components.file_view import FileView
-from handlers.handler import MainController
+from app.components.logging import Logging
+from app.components.csv import Csv
+from app.components.file_view import FileView
+from app.handlers.handler import MainController
 
 
 FONT = ("Verdana", "12", "bold")

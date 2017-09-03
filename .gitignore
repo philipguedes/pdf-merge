@@ -105,3 +105,6 @@ ENV/
 
 # test files
 lixo*
+
+# python dlls
+*.dll

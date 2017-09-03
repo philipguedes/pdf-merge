@@ -1,5 +1,4 @@
 import os
-import arrow
 from tkinter import filedialog, Frame
 from tkinter import *
 from tkinter.ttk import Treeview, Scrollbar

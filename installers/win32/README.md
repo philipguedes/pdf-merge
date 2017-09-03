@@ -2,7 +2,7 @@
 ## Pynsist
 Run this command from project root folder
 ```zsh
-$ python -m nsist installer.cfg
+$ python -m nsist win32installer.cfg
 ```
 
 

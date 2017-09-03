@@ -40,11 +40,9 @@ class FileView(object):
 
     def open(self):
         filetypes = ("pdf files", "*.pdf"), ("all files", "*.*")
-        # TODO: Change this initialdir
-        filename = filedialog.askopenfilename(initialdir='~/dev/pdf-merge',
+        filename = filedialog.askopenfilename(initialdir='~',
                                               title="Select file",
                                               filetypes=filetypes)
-        # Check if filename is None
         if os.path.isfile(filename):
             name = os.path.basename(filename)
             self.view.insert('', 'end', text='', values=name, tag=filename)

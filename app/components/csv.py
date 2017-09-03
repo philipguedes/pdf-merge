@@ -23,7 +23,7 @@ class Csv(object):
         filename = filedialog.askopenfilename(initialdir='~',
                                               title='Select File',
                                               filetypes=filetypes)
-        if filename.endswith('.csv'):
+        if os.path.isfile(filename):
             self.master.csv_file = filename
             message = 'Loaded <{}> file'.format(os.path.basename(filename))
             self.master.log_info(message)
